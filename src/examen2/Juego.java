@@ -39,6 +39,7 @@ public class Juego extends JFrame implements Runnable, KeyListener{
         start();
     }
     
+    private LinkedList<Malo> lista; // Lista
     private int score;
     private Bueno bird;
     private int constY;
@@ -47,13 +48,20 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     private boolean pausa;              // boolean para pausa
     private Animacion animB;
     private Animacion animP;
+    private Animacion animM1;
+    private Animacion animM2;
     private Image bg; //imagen del background
     private String st;
     private int salto;
     private boolean fuerza;
+    private Malo muro;
     private Malo piso;
     private SoundClip golpe;
     private SoundClip sigue;
+    private int altura;
+    private int ancho;
+    private int inicio;
+    
     
     
      //Variables de control de tiempo de la animación
@@ -70,6 +78,9 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          Image piso1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/piso1.png"));
          Image piso2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/piso2.png"));
          Image piso3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/piso3.png"));
+         Image muroA = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/muroA.png"));
+         Image muroB = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/muroB.png"));
+         
          
          animB = new Animacion();
          animB.sumaCuadro(bird1,100);
@@ -81,6 +92,13 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          animP.sumaCuadro(piso2,100);
          animP.sumaCuadro(piso3,100);
          
+         animM1 = new Animacion();
+         animM1.sumaCuadro(muroA,100);
+         
+         animM2 = new Animacion();
+         animM2.sumaCuadro(muroB,100);
+         
+         
          bird = new Bueno(300, 180, bird1, animB);
          
          URL uURL = this.getClass().getResource("images/bgF.png");
@@ -89,6 +107,23 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          
          sigue = new SoundClip("sounds/golpe.wav");
          golpe = new SoundClip("sounds/pasa.wav");
+         inicio=600;
+         
+         lista= new LinkedList<Malo>();
+             for(int j=0; j<2; j++){
+                 
+                 altura=((int) (Math.random() * 400 + 200));
+                 ancho=((int) (Math.random() * 200 + 100));
+                 
+                 muro = new Malo(inicio,altura,muroA,animM1);
+                 lista.add(muro);
+                 muro = new Malo(inicio,altura+70,muroB,animM1);
+                 lista.add(muro);
+              
+        }
+         
+         
+         
     }
 
     public void start() {
@@ -156,6 +191,12 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          bird.setPosY(bird.getPosY()+20-salto);
          fuerza=false;
          
+         for(Malo muro:lista){
+              
+             muro.setPosX(muro.getPosX()-20);
+              
+           }
+         
         
     }
 
@@ -203,7 +244,10 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     public void paint1(Graphics g) {
             g.drawImage(bg, 0, 0, this);
             g.drawImage(animB.getImagen(), bird.getPosX(), bird.getPosY(), this);
-           
+           for(Malo muro:lista){
+               g.drawImage(muro.getImagenI(), muro.getPosX(), muro.getPosY(), this);
+              
+           }
     }
 }
 
