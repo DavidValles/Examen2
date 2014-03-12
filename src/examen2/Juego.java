@@ -73,6 +73,7 @@ public class Juego extends JFrame implements Runnable, KeyListener {
     private boolean start;
     private boolean gameover;
     private SoundClip pasa;
+    private SoundClip choque;
     private int contnivel;
     private int velocidad;
 
@@ -95,6 +96,8 @@ public class Juego extends JFrame implements Runnable, KeyListener {
         Image muroB = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/muroB.png"));
 
         pasa = new SoundClip("sounds/pasa.wav");
+        choque = new SoundClip("sounds/golpe.wav");
+
 
         animB = new Animacion();
         animB.sumaCuadro(bird1, 100);
@@ -260,15 +263,17 @@ public class Juego extends JFrame implements Runnable, KeyListener {
 
         for (int i = 0; i < lista.size(); i++) {
             Malo actualA = (Malo) (lista.get(i));
-            Malo actualB = (Malo) (lista.get(i));
             if (actualA.getPosX() + actualA.getAncho() < 0) {
                 int y = 0;
             }
 
-            if ((actualA.intersecta2(bird) || actualB.intersecta2(bird))) {
+            if ((actualA.intersecta2(bird))) {
                 start = false;
                 gameover = true;
+                choque.play();
+                
             }
+           
         }
 
     }
@@ -327,6 +332,7 @@ public class Juego extends JFrame implements Runnable, KeyListener {
 
             if (gameover) {
                 g.drawImage(go, 0, 0, this);
+                
 
             }
         }
