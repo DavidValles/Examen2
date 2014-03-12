@@ -214,9 +214,9 @@ public class Juego extends JFrame implements Runnable, KeyListener{
                  
                  
                  
-                 if(entrada){
+                 if(muro.getEntrada()){
                      muro.setPosY((altura-dif));
-                      altura=((int) (Math.random() * 200 + 100));
+                      altura=((int) (Math.random() * 200 + 150));
                  }
                  else{
                      muro.setPosY(altura+100);
