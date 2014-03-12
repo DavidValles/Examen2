@@ -9,18 +9,18 @@ package examen2;
 import java.awt.Image;
 
 public class Bueno extends Base {
-   private static int score;
+   private static double score;
     
     public Bueno(int posX,int posY,Image image,Animacion anim){ //constructor
 		super(posX,posY,image,anim);
                 
    
         }
-         public void setScore(int score) {
+         public void setScore(double score) {
         this.score = score;
     }
 
-    public int getScore() {
+    public double getScore() {
         return this.score;
                 
 	}
