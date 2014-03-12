@@ -76,6 +76,12 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
     private SoundClip choque;
     private int contnivel;
     private int velocidad;
+    private File archivo;               
+    private FileReader fr;              
+    private BufferedReader br;
+    private FileWriter file;            
+    private PrintWriter out;
+    private boolean guarda;
     
 
 
@@ -123,7 +129,14 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
         gameover = false;
         contnivel=1;
         velocidad=10;
+        guarda=false;
 
+        file = new FileWriter("guarda.txt");
+        out = new PrintWriter(file);
+        archivo = new File("guarda.txt");
+        fr = new FileReader(archivo);
+        br = new BufferedReader(fr);
+        
         bird = new Bueno(300, 180, bird1, animB);
 
         URL uURL = this.getClass().getResource("images/bgF.png");
@@ -257,6 +270,27 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
         
           if(bird.getScore()>10){ //nivel3
             contnivel=3;
+        }
+          
+          if (guarda) {
+            archivo = new File("guarda.txt");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+            String linea;
+            linea = br.readLine();
+            System.out.println(linea);
+            int highscore = Integer.parseInt(linea);
+            if (highscore < bird.getScore()) {
+                file = new FileWriter("guarda.txt");
+                out = new PrintWriter(file);
+                out.println(bird.getScore());
+                hScore = bird.getScore();
+                newScore = true;
+            } else {
+                hScore = highscore;
+            }
+            file.close();
+            guarda = false;
         }
 
     }
