@@ -199,13 +199,25 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          for(Malo muro:lista){
               
              muro.setPosX(muro.getPosX()-20);
+             
+             if(muro.getPosX()+muro.getAncho()<0){
+                 muro.setPosX(630);
+             }
               
            }
+         
+        
          
         
     }
 
     public void checaColision() {
+        
+        if(bird.getPosY()+bird.getAlto()>getHeight()){
+           bird.setPosY(getHeight()-bird.getAlto());
+        }
+        
+     
 
     }
 
