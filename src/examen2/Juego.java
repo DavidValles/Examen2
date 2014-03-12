@@ -85,6 +85,8 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
     private double hScore;
     private boolean newScore;
     private int inicio2;
+    private int nivel;
+            
     
     
 
@@ -111,6 +113,7 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
 
         pausa =true;
         newScore=false;
+        nivel=10;
         
         
         
@@ -287,13 +290,12 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
             }
 
         }
-        if(bird.getScore()>5){ // nivel2
-            contnivel=2;
+        if(bird.getScore()>nivel*contnivel){ // nivel2
+            contnivel++;
+            velocidad=velocidad-10;
         }
         
-          if(bird.getScore()>10){ //nivel3
-            contnivel=3;
-        }
+         
           /*
           if (guarda) {
             archivo = new File("guarda.txt");
