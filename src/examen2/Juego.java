@@ -84,6 +84,8 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
     private boolean guarda;
     private double hScore;
     private boolean newScore;
+    private int inicio2;
+    
     
 
 
@@ -109,6 +111,8 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
 
         pausa =true;
         newScore=false;
+        
+        
         
         animB = new Animacion();                //crea animacion 
         animB.sumaCuadro(bird1, 100);
@@ -233,6 +237,20 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
 
         //Actualiza la animación en base al tiempo transcurrido
         animB.actualiza(tiempoTranscurrido);
+        
+        if(!start){
+                    
+                  bird.setScore(0);
+                  bird.setPosY(180);
+                  
+                  for (Malo muro : lista) { 
+                      
+                       
+
+                  }
+                   
+                }
+        
         if (start) { // espera inicio
             if (fuerza) {
                 salto = 60;
@@ -242,6 +260,8 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
 
             bird.setPosY(bird.getPosY() + 20 - salto); // hace el salto del bird
             fuerza = false;
+            
+             
 
             for (Malo muro : lista) {
                 
@@ -263,7 +283,7 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
                     bird.setScore(bird.getScore() +0.5);
                     pasa.play();
                 }
-                
+
             }
 
         }
@@ -274,7 +294,7 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
           if(bird.getScore()>10){ //nivel3
             contnivel=3;
         }
-          
+          /*
           if (guarda) {
             archivo = new File("guarda.txt");
             fr = new FileReader(archivo);
@@ -294,8 +314,10 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
             }
             file.close();
             guarda = false;
-        }
-
+        }*/
+         
+          
+        
     }
 
     public void checaColision() {
@@ -428,12 +450,13 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
             g.drawString("Score:", 40, 50);
             g.setColor(Color.WHITE);
             g.drawString("Nivel:" + contnivel, 20, 300);
-
+            if(!start){
             if (gameover) {
                 g.drawImage(go, 0, 0, this);
                 
 
             }
+          }
         }
         if (newScore) {
                     g.drawString("New Highscore " + hScore, 30, 230);
