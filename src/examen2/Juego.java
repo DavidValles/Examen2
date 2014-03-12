@@ -196,7 +196,7 @@ public class Juego extends JFrame implements Runnable, KeyListener {
 
             //Hace una pausa de 200 milisegundos
             try {
-                Thread.sleep(200);
+                Thread.sleep(150);
             } catch (InterruptedException ex) {
             }
 
@@ -249,11 +249,11 @@ public class Juego extends JFrame implements Runnable, KeyListener {
             }
 
         }
-        if(bird.getScore()>500){ // nivel2
+        if(bird.getScore()>5){ // nivel2
             contnivel=2;
         }
         
-          if(bird.getScore()>1000){ //nivel3
+          if(bird.getScore()>10){ //nivel3
             contnivel=3;
         }
 
