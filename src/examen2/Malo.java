@@ -15,9 +15,9 @@ public class Malo extends Base{
     private int conteo; // variable de conteo
     private boolean entrada;// variable de entrada
     
-    public Malo(int posX,int posY,Image image, Animacion anim){ //constructor
+    public Malo(int posX,int posY,Image image, Animacion anim, Boolean x){ //constructor
 		super(posX,posY,image,anim);
-               
+               entrada=x;
     }
 
   

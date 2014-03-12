@@ -62,6 +62,8 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     private int ancho;
     private int inicio;
     private int dif;
+    private boolean entrada;
+    private int cont;
     
     
     
@@ -99,6 +101,7 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          animM2 = new Animacion();
          animM2.sumaCuadro(muroB,100);
          
+         cont=2;
          
          bird = new Bueno(300, 180, bird1, animB);
          
@@ -109,21 +112,26 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          sigue = new SoundClip("sounds/golpe.wav");
          golpe = new SoundClip("sounds/pasa.wav");
          inicio=600;
+         entrada=true;
          
-         muro= new Malo(1000,1000, muroB, animM2);
+         muro= new Malo(1000,1000, muroB, animM2, entrada);
         dif= muro.getAlto();
          
          
          lista= new LinkedList<Malo>();
-             for(int j=0; j<2; j++){
+             for(int j=0; j<3; j++){
                  
                  altura=((int) (Math.random() * 200 + 100));
                  ancho=((int) (Math.random() * 200 + 100));
                  
-                 muro = new Malo(inicio,(altura-dif),muroB,animM2);
+                 muro = new Malo(inicio,(altura-dif),muroB,animM2,entrada);
                  lista.add(muro);
-                 muro = new Malo(inicio,altura+400,muroA,animM1);
+                 entrada=!entrada;
+                 muro = new Malo(inicio,altura+100,muroA,animM1,entrada);
                  lista.add(muro);
+                 entrada=!entrada;
+                 
+                 inicio=inicio+250;
               
         }
          
@@ -143,7 +151,7 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     }
 
     public void destroy() {
-
+                
     }
 
     public void run() {
@@ -201,8 +209,23 @@ public class Juego extends JFrame implements Runnable, KeyListener{
              muro.setPosX(muro.getPosX()-20);
              
              if(muro.getPosX()+muro.getAncho()<0){
+                 
                  muro.setPosX(630);
+                 
+                 
+                 
+                 if(entrada){
+                     muro.setPosY((altura-dif));
+                      altura=((int) (Math.random() * 200 + 100));
+                 }
+                 else{
+                     muro.setPosY(altura+100);
+                 }
+               
+                 
              }
+             
+             
               
            }
          
