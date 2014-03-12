@@ -33,9 +33,9 @@ import java.io.FileWriter;
  * @author Dago
  */
 //Flappy Bird
-public class Juego {
+public class Juego extends JFrame implements Runnable, KeyListener{
 
-    public Juego() {
+    public Juego() throws IOException {
         init();
         start();
     }

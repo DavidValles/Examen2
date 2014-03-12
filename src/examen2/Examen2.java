@@ -5,18 +5,25 @@
  */
 
 package examen2;
-// FLappy bird
+
+import java.io.IOException;
+import javax.swing.JFrame;
+
 /**
  *
  * @author David
  */
 public class Examen2 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    
+    public Examen2(){
+    
+    }
+   
+    public static void main(String[] args) throws IOException {
+        Juego variable;
+        variable = new Juego();
+        variable.setVisible(true);
+        variable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
 }
