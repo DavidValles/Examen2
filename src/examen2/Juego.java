@@ -61,6 +61,7 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     private int altura;
     private int ancho;
     private int inicio;
+    private int dif;
     
     
     
@@ -109,15 +110,19 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          golpe = new SoundClip("sounds/pasa.wav");
          inicio=600;
          
+         muro= new Malo(1000,1000, muroB, animM2);
+        dif= muro.getAlto();
+         
+         
          lista= new LinkedList<Malo>();
              for(int j=0; j<2; j++){
                  
-                 altura=((int) (Math.random() * 400 + 200));
+                 altura=((int) (Math.random() * 200 + 100));
                  ancho=((int) (Math.random() * 200 + 100));
                  
-                 muro = new Malo(inicio,altura,muroA,animM1);
+                 muro = new Malo(inicio,(altura-dif),muroB,animM2);
                  lista.add(muro);
-                 muro = new Malo(inicio,altura+70,muroB,animM1);
+                 muro = new Malo(inicio,altura+400,muroA,animM1);
                  lista.add(muro);
               
         }
