@@ -51,6 +51,7 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     private Animacion animM1;
     private Animacion animM2;
     private Image bg; //imagen del background
+    private Image go; //imagen de gameover
     private String st;
     private int salto;
     private boolean fuerza;
@@ -64,7 +65,9 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     private int dif;
     private boolean entrada;
     private int cont;
-    
+    private boolean start;
+    private boolean gameover;
+      private SoundClip pasa;
     
     
      //Variables de control de tiempo de la animación
@@ -84,6 +87,8 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          Image muroA = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/muroA.png"));
          Image muroB = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/muroB.png"));
          
+         pasa = new SoundClip("sounds/pasa.wav");
+
          
          animB = new Animacion();
          animB.sumaCuadro(bird1,100);
@@ -102,11 +107,18 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          animM2.sumaCuadro(muroB,100);
          
          cont=2;
+         score=0;
+         start=false;
+         gameover=false;
          
          bird = new Bueno(300, 180, bird1, animB);
          
          URL uURL = this.getClass().getResource("images/bgF.png");
          bg = Toolkit.getDefaultToolkit().getImage(uURL);
+         
+         URL gURL = this.getClass().getResource("images/bird gameover.jpg");
+         go = Toolkit.getDefaultToolkit().getImage(gURL);
+         
          fuerza=true;
          
          sigue = new SoundClip("sounds/golpe.wav");
@@ -121,8 +133,10 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          lista= new LinkedList<Malo>();
              for(int j=0; j<3; j++){
                  
-                 altura=((int) (Math.random() * 200 + 100));
-                 ancho=((int) (Math.random() * 200 + 100));
+                 
+                 
+                 altura = ((int) (Math.random() * 100)) + 155;
+                ancho = this.getHeight() - altura - 600;
                  
                  muro = new Malo(inicio,(altura-dif),muroB,animM2,entrada);
                  lista.add(muro);
@@ -132,6 +146,8 @@ public class Juego extends JFrame implements Runnable, KeyListener{
                  entrada=!entrada;
                  
                  inicio=inicio+250;
+                 
+                
               
         }
          
@@ -188,6 +204,8 @@ public class Juego extends JFrame implements Runnable, KeyListener{
 
     public void actualiza() throws IOException {
         
+        
+        
         //Determina el tiempo que ha transcurrido desde que el Applet inicio su ejecución
             long tiempoTranscurrido
                     = System.currentTimeMillis() - tiempoActual;
@@ -195,17 +213,19 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          //Guarda el tiempo actual
          tiempoActual += tiempoTranscurrido;
             
+       
          //Actualiza la animación en base al tiempo transcurrido
          animB.actualiza(tiempoTranscurrido);
-         
+         if (start){
          if(fuerza){salto=60;}
          else{salto=0;}
          
          bird.setPosY(bird.getPosY()+20-salto);
          fuerza=false;
          
+        
          for(Malo muro:lista){
-              
+               bird.setScore(bird.getScore() + 1);
              muro.setPosX(muro.getPosX()-20);
              
              if(muro.getPosX()+muro.getAncho()<0){
@@ -215,39 +235,59 @@ public class Juego extends JFrame implements Runnable, KeyListener{
                  
                  
                  if(muro.getEntrada()){
-                     muro.setPosY((altura-dif));
-                      altura=((int) (Math.random() * 200 + 150));
+                       altura = ((int) (Math.random() * 100)) + 155;
                  }
                  else{
-                     muro.setPosY(altura+100);
+                    altura = ((int) (Math.random() * 100)) + 155;
+                    
                  }
                
                  
              }
              
-             
-              
+                     
            }
          
-        
+         } 
+         
          
         
     }
 
     public void checaColision() {
         
-        if(bird.getPosY()+bird.getAlto()>getHeight()){
-           bird.setPosY(getHeight()-bird.getAlto());
+        for (int i = 0; i < lista.size(); i++) {
+            Malo actualA = (Malo) (lista.get(i));
+            Malo actualB = (Malo) (lista.get(i));
+            if (actualA.getPosX() + actualA.getAncho() < 0) {
+                int y = 0;
+            }
+        
+        
+    if ((actualA.intersecta2(bird) || actualB.intersecta2(bird))) {
+                start = false;
+                gameover=true;
+    }
         }
         
-     
+        
+}      
 
-    }
+    
+    
 
     public void keyPressed(KeyEvent e) {
+       
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {//Presiono flecha arriba
             fuerza=true;
-         }   
+         }
+        
+        
+        if(!start){
+            start=true;
+            
+        }
+      
          
     }
 
@@ -286,7 +326,13 @@ public class Juego extends JFrame implements Runnable, KeyListener{
             g.drawImage(animB.getImagen(), bird.getPosX(), bird.getPosY(), this);
            for(Malo muro:lista){
                g.drawImage(muro.getImagenI(), muro.getPosX(), muro.getPosY(), this);
+              g.drawString("" + bird.getScore(), this.getWidth() / 8, 50);
+              g.drawString("Distance:" , 20, 50);
               
+               if (gameover) {
+                   g.drawImage(go, 0, 0, this);
+
+               }
            }
     }
 }
