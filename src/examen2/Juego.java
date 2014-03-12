@@ -99,7 +99,8 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
         pasa = new SoundClip("sounds/pasa.wav");
         choque = new SoundClip("sounds/golpe.wav");
 
-
+        pausa =true;
+        
         animB = new Animacion();                //crea animacion 
         animB.sumaCuadro(bird1, 100);
         animB.sumaCuadro(bird2, 100);
@@ -180,7 +181,7 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
         tiempoActual = System.currentTimeMillis();
 
         while (true) {
-
+               if(pausa){
             //sigue mientras pausa sea true
             try {
                 //Actualiza la animación
@@ -194,7 +195,7 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
 
             //Manda a llamar al método paint() para mostrar en pantalla la animación
             repaint();
-
+               }
             //Hace una pausa de 200 milisegundos
             try {
                 Thread.sleep(150);
@@ -303,6 +304,11 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
         if (!start) {
             start = true;
 
+        }
+        
+          if(e.getKeyCode() == KeyEvent.VK_P){
+            if(pausa){pausa=false;}
+            else{pausa=true;}
         }
 
     }
