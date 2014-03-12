@@ -271,6 +271,7 @@ public class Juego extends JFrame implements Runnable, KeyListener {
                 start = false;
                 gameover = true;
                 choque.play();
+                bird.setPosX(bird.getPosX()-20);
                 
             }
            
