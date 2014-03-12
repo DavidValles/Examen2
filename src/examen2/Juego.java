@@ -67,7 +67,8 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     private int cont;
     private boolean start;
     private boolean gameover;
-      private SoundClip pasa;
+    private SoundClip pasa;
+    private boolean dentro;
     
     
      //Variables de control de tiempo de la animación
@@ -87,7 +88,7 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          Image muroA = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/muroA.png"));
          Image muroB = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/muroB.png"));
          
-         pasa = new SoundClip("sounds/pasa.wav");
+        
 
          
          animB = new Animacion();
@@ -110,6 +111,7 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          score=0;
          start=false;
          gameover=false;
+         dentro=false;
          
          bird = new Bueno(300, 180, bird1, animB);
          
@@ -121,8 +123,8 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          
          fuerza=true;
          
-         sigue = new SoundClip("sounds/golpe.wav");
-         golpe = new SoundClip("sounds/pasa.wav");
+         sigue = new SoundClip("sounds/pasa.wav");
+         golpe = new SoundClip("sounds/golpe.wav");
          inicio=600;
          entrada=true;
          
@@ -204,7 +206,7 @@ public class Juego extends JFrame implements Runnable, KeyListener{
 
     public void actualiza() throws IOException {
         
-        
+        st = String.valueOf(score) ; 
         
         //Determina el tiempo que ha transcurrido desde que el Applet inicio su ejecución
             long tiempoTranscurrido
@@ -245,6 +247,12 @@ public class Juego extends JFrame implements Runnable, KeyListener{
                  
              }
              
+             if(muro.getPosX()<= 300 && muro.getPosX()>=294){
+               
+                 score++;
+                 sigue.play();
+              
+             }
                      
            }
          
@@ -262,12 +270,18 @@ public class Juego extends JFrame implements Runnable, KeyListener{
             if (actualA.getPosX() + actualA.getAncho() < 0) {
                 int y = 0;
             }
+            
         
         
     if ((actualA.intersecta2(bird) || actualB.intersecta2(bird))) {
                 start = false;
                 gameover=true;
+                golpe.play();
+                bird.setPosX(bird.getPosX()-20);
     }
+    
+   
+    
         }
         
         
@@ -325,9 +339,11 @@ public class Juego extends JFrame implements Runnable, KeyListener{
             g.drawImage(bg, 0, 0, this);
             g.drawImage(animB.getImagen(), bird.getPosX(), bird.getPosY(), this);
            for(Malo muro:lista){
-               g.drawImage(muro.getImagenI(), muro.getPosX(), muro.getPosY(), this);
-              g.drawString("" + bird.getScore(), this.getWidth() / 8, 50);
-              g.drawString("Distance:" , 20, 50);
+            g.drawImage(muro.getImagenI(), muro.getPosX(), muro.getPosY(), this);
+            g.drawString("" + bird.getScore(), this.getWidth() / 8, 50);
+            g.drawString("Distance:" , 20, 50);
+            g.drawString("Score:" , 20, 70);
+            g.drawString("" + st, this.getWidth() / 8, 70);  
               
                if (gameover) {
                    g.drawImage(go, 0, 0, this);
