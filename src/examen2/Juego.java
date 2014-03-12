@@ -37,7 +37,7 @@ import java.io.FileWriter;
  * @author Dago
  */
 //Flappy Bird 2
-public class Juego extends JFrame implements Runnable, KeyListener {
+public class Juego extends JFrame implements Runnable, KeyListener,  MouseListener {
 
     public Juego() throws IOException {
         init();
@@ -76,6 +76,7 @@ public class Juego extends JFrame implements Runnable, KeyListener {
     private SoundClip choque;
     private int contnivel;
     private int velocidad;
+    
 
 
     //Variables de control de tiempo de la animación
@@ -83,7 +84,7 @@ public class Juego extends JFrame implements Runnable, KeyListener {
     private long tiempoInicial;
 
     public void init() throws IOException {
-
+         addMouseListener(this);
         this.setSize(700, 400); // tamano del applet
         addKeyListener(this); //utilizada para los metodos de KeyBoard
         Image bird1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/bird1.png"));
@@ -299,6 +300,41 @@ public class Juego extends JFrame implements Runnable, KeyListener {
     public void keyReleased(KeyEvent e) {
 
     }
+    
+  
+    
+    public void mouseClicked(MouseEvent e) {
+
+            
+        }
+    
+     public void mouseDragged(MouseEvent e){ // checa el movimiento del mouse
+     
+     }
+     
+     public void mouseEntered(MouseEvent e) {}
+     
+     public void mouseExited(MouseEvent e) {}
+    
+     public void mousePressed(MouseEvent e) { // checa si presionas el mouse dentro megaman
+        
+            fuerza = true;
+             if (!start) {
+            start = true;
+        }
+           
+            
+     }
+     
+     public void mouseReleased(MouseEvent e) { //checa cuando dejaste el planeta
+         
+        
+     }
+      public void mouseMoved(MouseEvent e) {
+
+    }
+   
+    
 
     public void paint(Graphics g) {
 
