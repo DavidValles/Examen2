@@ -45,29 +45,29 @@ public class Juego extends JFrame implements Runnable, KeyListener {
     }
 
     private LinkedList<Malo> lista; // Lista
-    private double score;
-    private Bueno bird;
-    private int constY;
+    private double score;   //int para score
+    private Bueno bird;     // Objeto principal bueno
+    private int constY;     // constante Y
     private Graphics dbg;               //Objeto tipo Graphics
     private Image dbImage;              //Imagen para el doblebuffer 
     private boolean pausa;              // boolean para pausa
-    private Animacion animB;
-    private Animacion animP;
-    private Animacion animM1;
-    private Animacion animM2;
+    private Animacion animB;            // animacion bird
+    private Animacion animP;            // animacion piso
+    private Animacion animM1;           // animacion Muro1
+    private Animacion animM2;           // animacion Muro2
     private Image bg; //imagen del background
     private Image go; //imagen de gameover
-    private String st;
-    private int salto;
+    private String st;  // string que contiene el score
+    private int salto;  // salto que mueve al bird
     private boolean fuerza;
-    private Malo muro;
-    private Malo piso;
-    private SoundClip golpe;
-    private SoundClip sigue;
-    private int altura;
-    private int ancho;
-    private int inicio;
-    private int dif;
+    private Malo muro;  // objeto malo
+    private Malo piso; // objeto malo
+    private SoundClip golpe;    // sonido cuando muere
+    private SoundClip sigue;    // sonido cuando pasa por un muro
+    private int altura;         // variable de altura
+    private int ancho;          // variable de ancho
+    private int inicio;         // posicion inicial
+    private int dif;            // diferencia;
     private boolean entrada;
     private int cont;
     private boolean start;
@@ -96,7 +96,7 @@ public class Juego extends JFrame implements Runnable, KeyListener {
 
         pasa = new SoundClip("sounds/pasa.wav");
 
-        animB = new Animacion();
+        animB = new Animacion();                //crea animacion 
         animB.sumaCuadro(bird1, 100);
         animB.sumaCuadro(bird2, 100);
         animB.sumaCuadro(bird3, 100);
@@ -140,17 +140,17 @@ public class Juego extends JFrame implements Runnable, KeyListener {
         lista = new LinkedList<Malo>();
         for (int j = 0; j < 3; j++) {
 
-            altura = ((int) (Math.random() * 100)) + 155;
-            ancho = this.getHeight() - altura - 400;
+            altura = ((int) (Math.random() * 100)) + 155;       //random altura
+            ancho = this.getHeight() - altura - 400;            // random anchura(diferencia en x)
 
             muro = new Malo(inicio, (altura - dif), muroB, animM2, entrada);
-            lista.add(muro);
+            lista.add(muro);    // se crea muro de arriba y se agrega
             entrada = !entrada;
             muro = new Malo(inicio, altura + 100, muroA, animM1, entrada);
-            lista.add(muro);
+            lista.add(muro); // se crea muro de abajo y se agrega
             entrada = !entrada;
 
-            inicio = inicio + 250;
+            inicio = inicio + 250; // inicio se recorre
 
         }
 
@@ -212,25 +212,25 @@ public class Juego extends JFrame implements Runnable, KeyListener {
 
         //Actualiza la animación en base al tiempo transcurrido
         animB.actualiza(tiempoTranscurrido);
-        if (start) {
+        if (start) { // espera inicio
             if (fuerza) {
                 salto = 60;
             } else {
                 salto = 0;
             }
 
-            bird.setPosY(bird.getPosY() + 20 - salto);
+            bird.setPosY(bird.getPosY() + 20 - salto); // hace el salto del bird
             fuerza = false;
 
             for (Malo muro : lista) {
                 
-                muro.setPosX(muro.getPosX() - velocidad);
+                muro.setPosX(muro.getPosX() - velocidad); // movimiento de los muros
 
                 if (muro.getPosX() + muro.getAncho() < 0) {
 
                     muro.setPosX(630);
 
-                    if (muro.getEntrada()) {
+                    if (muro.getEntrada()) { // se regresan los muros al inicio, pero con altura random
                         altura = ((int) (Math.random() * 100)) + 155;
                     } else {
                         altura = ((int) (Math.random() * 100)) + 155;
@@ -238,7 +238,7 @@ public class Juego extends JFrame implements Runnable, KeyListener {
                     }
 
                 }
-                if(muro.getPosX()==bird.getPosX()){
+                if(muro.getPosX()==bird.getPosX()){ // si el bird pasa 1 muro
                     bird.setScore(bird.getScore() +0.5);
                     pasa.play();
                 }
@@ -246,11 +246,11 @@ public class Juego extends JFrame implements Runnable, KeyListener {
             }
 
         }
-        if(bird.getScore()>500){
+        if(bird.getScore()>500){ // nivel2
             contnivel=2;
         }
         
-          if(bird.getScore()>1000){
+          if(bird.getScore()>1000){ //nivel3
             contnivel=3;
         }
 
