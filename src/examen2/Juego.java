@@ -39,14 +39,22 @@ public class Juego extends JFrame implements Runnable, KeyListener{
         start();
     }
     
+    private int score;
     private Bueno bird;
     private int constY;
     private Graphics dbg;               //Objeto tipo Graphics
     private Image dbImage;              //Imagen para el doblebuffer 
     private boolean pausa;              // boolean para pausa
     private Animacion animB;
+    private Animacion animP;
     private Image bg; //imagen del background
     private String st;
+    private int salto;
+    private boolean fuerza;
+    private Malo piso;
+    private SoundClip golpe;
+    private SoundClip sigue;
+    
     
      //Variables de control de tiempo de la animación
         private long tiempoActual;
@@ -54,18 +62,33 @@ public class Juego extends JFrame implements Runnable, KeyListener{
 
     public void init() throws IOException {
         
-        this.setSize(700, 600); // tamano del applet
+        this.setSize(700, 400); // tamano del applet
         addKeyListener(this); //utilizada para los metodos de KeyBoard
          Image bird1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/bird1.png"));
          Image bird2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/bird2.png"));
          Image bird3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/bird3.png"));
+         Image piso1 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/piso1.png"));
+         Image piso2 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/piso2.png"));
+         Image piso3 = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("images/piso3.png"));
          
          animB = new Animacion();
          animB.sumaCuadro(bird1,100);
          animB.sumaCuadro(bird2,100);
          animB.sumaCuadro(bird3,100);
          
-         bird = new Bueno(300, 275, bird1, animB);
+          animP = new Animacion();
+         animP.sumaCuadro(piso1,100);
+         animP.sumaCuadro(piso2,100);
+         animP.sumaCuadro(piso3,100);
+         
+         bird = new Bueno(300, 180, bird1, animB);
+         
+         URL uURL = this.getClass().getResource("images/bgF.png");
+         bg = Toolkit.getDefaultToolkit().getImage(uURL);
+         fuerza=true;
+         
+         sigue = new SoundClip("sounds/Breaking Bad Theme Song.wav");
+         golpe = new SoundClip("sounds/Breaking Bad Theme Song.wav");
     }
 
     public void start() {
@@ -126,6 +149,13 @@ public class Juego extends JFrame implements Runnable, KeyListener{
             
          //Actualiza la animación en base al tiempo transcurrido
          animB.actualiza(tiempoTranscurrido);
+         
+         if(fuerza){salto=60;}
+         else{salto=0;}
+         
+         bird.setPosY(bird.getPosY()+20-salto);
+         fuerza=false;
+         
         
     }
 
@@ -134,14 +164,18 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     }
 
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {//Presiono flecha arriba
+            fuerza=true;
+         }   
+         
     }
 
     public void keyTyped(KeyEvent e) {
-
+                                               
     }
 
     public void keyReleased(KeyEvent e) {
+        
     }
 
     public void paint(Graphics g) {
@@ -167,7 +201,9 @@ public class Juego extends JFrame implements Runnable, KeyListener{
     }
 
     public void paint1(Graphics g) {
+            g.drawImage(bg, 0, 0, this);
             g.drawImage(animB.getImagen(), bird.getPosX(), bird.getPosY(), this);
+           
     }
 }
 
