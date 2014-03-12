@@ -277,6 +277,20 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
             }
            
         }
+        
+       if(bird.getPosY()<0){
+           start=false;
+           gameover=true;
+           choque.play();
+           bird.setPosY(300);
+       }
+       
+      if(bird.getPosY()+ bird.getAlto()> getHeight() ){
+          start=false;
+           gameover=true;
+           choque.play();
+           bird.setPosY(300);
+      }
 
     }
 
