@@ -87,8 +87,8 @@ public class Juego extends JFrame implements Runnable, KeyListener{
          bg = Toolkit.getDefaultToolkit().getImage(uURL);
          fuerza=true;
          
-         sigue = new SoundClip("sounds/Breaking Bad Theme Song.wav");
-         golpe = new SoundClip("sounds/Breaking Bad Theme Song.wav");
+         sigue = new SoundClip("sounds/golpe.wav");
+         golpe = new SoundClip("sounds/pasa.wav");
     }
 
     public void start() {
