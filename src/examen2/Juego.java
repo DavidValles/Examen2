@@ -82,6 +82,8 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
     private FileWriter file;            
     private PrintWriter out;
     private boolean guarda;
+    private double hScore;
+    private boolean newScore;
     
 
 
@@ -106,6 +108,7 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
         choque = new SoundClip("sounds/golpe.wav");
 
         pausa =true;
+        newScore=false;
         
         animB = new Animacion();                //crea animacion 
         animB.sumaCuadro(bird1, 100);
@@ -427,5 +430,10 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
 
             }
         }
+        if (newScore) {
+                    g.drawString("New Highscore " + hScore, 30, 230);
+                } else {
+                    g.drawString("Highscore " + hScore, 55, 230);
+                }
     }
 }
