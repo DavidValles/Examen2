@@ -134,9 +134,9 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
         velocidad=10;
         guarda=false;
 
-        file = new FileWriter("guarda.txt");
+        file = new FileWriter("highscore.txt");
         out = new PrintWriter(file);
-        archivo = new File("guarda.txt");
+        archivo = new File("highscore.txt");
         fr = new FileReader(archivo);
         br = new BufferedReader(fr);
         
@@ -311,6 +311,7 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
                 gameover = true;
                 choque.play();
                 bird.setPosX(bird.getPosX()-20);
+                guarda=true;
                 
             }
            
@@ -321,6 +322,8 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
            gameover=true;
            choque.play();
            bird.setPosY(300);
+                       guarda=true;
+
        }
        
       if(bird.getPosY()+ bird.getAlto()> getHeight() ){
@@ -328,6 +331,8 @@ public class Juego extends JFrame implements Runnable, KeyListener,  MouseListen
            gameover=true;
            choque.play();
            bird.setPosY(300);
+                           guarda=true;
+
       }
 
     }
